@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <script src="https://fb.me/react-0.13.3.js"></script>
+    <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id='search'></div>
+    <script type="text/jsx">
+      var Search = React.createClass({
+        getInitialState: function () {
+          return { searchString: '' }
+        },
+
+        handleChange: function (e) {
+          this.setState({ searchString: e.target.value })
+        },
+
+        render: function () {
+          var names = this.props.items
+              searchString = this.state.searchString.trim().toLowerCase();
+
+          if (!names.length) {
+            return <p>Loading Names</p>
+          }
+
+          if ( searchString.length > 0 ) {
+            names = names.filter(function (n) {
+              return n.toLowerCase().match( searchString );
+            })
+          }
+
+          return (
+            <div>
+              <input
+                type='text'
+                value={ this.state.searchString }
+                onChange={ this.handleChange } />
+              <ul>
+                {
+                  names.map(function(n) {
+                    return <li>{n}</li>
+                  })
+                }
+              </ul>
+            </div>
+          );
+        }
+      });
+
+      var names = ['Brad', 'Jade', 'Sarah', 'Jon', 'Faye', 'Charlie', 'Jared']
+
+      React.render(
+        < Search items={ names } />,
+        document.getElementById('search')
+      )
+    </script>
+  </body>
+</html>
